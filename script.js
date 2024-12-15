@@ -169,6 +169,28 @@ function movePlayer(dx, dy) {
   }
 }
 
+// 移動用ボタンのイベントリスナー（タッチとクリック対応）
+function setupMovementButtons() {
+  const handleMove = (dx, dy) => movePlayer(dx, dy);
+
+  const bindButton = (button, dx, dy) => {
+    button.addEventListener("click", () => handleMove(dx, dy));
+    button.addEventListener("touchstart", (e) => {
+      e.preventDefault(); // タッチイベントのデフォルト動作を防止
+      handleMove(dx, dy);
+    });
+  };
+
+  bindButton(upButton, 0, -1);
+  bindButton(downButton, 0, 1);
+  bindButton(leftButton, -1, 0);
+  bindButton(rightButton, 1, 0);
+}
+
+// ボタンのイベントリスナーを設定
+setupMovementButtons();
+
+
 // 敵または魔王との遭遇チェック
 function checkEncounter() {
   const enemy = enemies.find((e) => e.x === player.x && e.y === player.y && !e.defeated);
