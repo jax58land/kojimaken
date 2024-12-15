@@ -15,6 +15,13 @@ const playerImage = document.getElementById("playerImage");
 const enemyImage = document.getElementById("enemyImage");
 const playerNameElement = document.getElementById("playerName");
 const enemyNameElement = document.getElementById("enemyName");
+const bgm = document.getElementById("bgm");
+
+// 移動用ボタンの取得
+const upButton = document.getElementById("upButton");
+const downButton = document.getElementById("downButton");
+const leftButton = document.getElementById("leftButton");
+const rightButton = document.getElementById("rightButton");
 
 // キャンバス設定
 gameCanvas.width = 600;
@@ -44,7 +51,7 @@ const boss = {
   defeated: false,
   dungeonImg: "jesee1.png",
   battleImg: "jesee2.png",
-  name: "Mr.ZUDON",
+  name: "ミスターズドン",
 };
 
 // プレイヤーのスキル
@@ -68,6 +75,17 @@ window.addEventListener("keydown", (e) => {
   if (e.key === "ArrowRight") movePlayer(1, 0);
 });
 
+// 移動用ボタンのイベントリスナー（タッチ対応）
+upButton.addEventListener("click", () => movePlayer(0, -1));
+downButton.addEventListener("click", () => movePlayer(0, 1));
+leftButton.addEventListener("click", () => movePlayer(-1, 0));
+rightButton.addEventListener("click", () => movePlayer(1, 0));
+
+upButton.addEventListener("touchstart", () => movePlayer(0, -1));
+downButton.addEventListener("touchstart", () => movePlayer(0, 1));
+leftButton.addEventListener("touchstart", () => movePlayer(-1, 0));
+rightButton.addEventListener("touchstart", () => movePlayer(1, 0));
+
 // 必殺技ボタンの表示条件を確認
 function checkUltimateSkill() {
   const ultimateSkill = playerSkills.find((skill) => skill.isUltimate);
@@ -76,7 +94,7 @@ function checkUltimateSkill() {
     (child) => child.textContent === ultimateSkill.name
   );
 
-  if (player.hp <= 50 && !ultimateButtonExists) {
+  if (player.hp <= 20 && !ultimateButtonExists) {
     const button = document.createElement("button");
     button.classList.add("actionButton");
     button.textContent = ultimateSkill.name;
@@ -89,6 +107,15 @@ function checkUltimateSkill() {
 function startGame() {
   document.getElementById("startScreen").style.display = "none";
   gameDiv.style.display = "block";
+
+  // BGM再生
+  if (bgm.paused) {
+    bgm.volume = 0.2; // 音量を1/5に設定
+    bgm.play().catch((error) => {
+      console.error("BGMの再生に失敗しました:", error);
+    });
+  }
+
   drawGrid();
 }
 
@@ -167,21 +194,21 @@ function startBattle(enemy) {
 
   resetBattleLog();
   updateBattleLog(`${enemy.name}が現れた！`, "red");
-  createSkillButtons(); // スキルボタンを生成
+  createSkillButtons();
 }
 
 // バトルログリセット
 function resetBattleLog() {
-  battleLog.innerHTML = ""; // バトル開始時にログをクリア
+  battleLog.innerHTML = "";
 }
 
 // スキルボタン作成
 function createSkillButtons() {
   const actionsContainer = document.getElementById("playerActions");
-  actionsContainer.innerHTML = ""; // ボタンをリセット
+  actionsContainer.innerHTML = "";
 
   playerSkills.forEach((skill, index) => {
-    if (skill.isUltimate && player.hp > 20) return; // 必殺技は条件未満なら生成しない
+    if (skill.isUltimate && player.hp > 50) return;
     const button = document.createElement("button");
     button.classList.add("actionButton");
     button.textContent = skill.name;
@@ -204,7 +231,7 @@ function playerAttack(index) {
   const damage = skill.damage();
   currentEnemy.hp = Math.max(0, currentEnemy.hp - damage);
   updateBattleLog(`こじけんの「${skill.name}」！${currentEnemy.name}に${damage}ダメージ！`, "black");
-  flashImage(enemyImage); // 敵画像点滅
+  flashImage(enemyImage);
   updateBattleScreen();
 
   if (currentEnemy.hp <= 0) {
@@ -220,13 +247,13 @@ function enemyAttack() {
   const damage = Math.floor(Math.random() * 15) + 5;
   player.hp = Math.max(0, player.hp - damage);
   updateBattleLog(`${currentEnemy.name}の攻撃！こじけんに${damage}ダメージ！`, "red");
-  flashImage(playerImage); // プレイヤー画像点滅
+  flashImage(playerImage);
   updateBattleScreen();
 
   if (player.hp <= 0) {
     handleGameOver();
   } else {
-    checkUltimateSkill(); // 必殺技の条件確認
+    checkUltimateSkill();
   }
 }
 
@@ -248,11 +275,10 @@ function handleBattleWin() {
   setTimeout(() => {
     battleScreen.style.display = "none";
 
-    // 魔王出現条件
     if (enemies.every((e) => e.defeated) && boss.x === null) {
       boss.x = 3;
       boss.y = 5;
-      updateBattleLog("Mr.ZUDONが出現した！", "red");
+      updateBattleLog("ミスターズドンが出現した！", "red");
     }
 
     if (currentEnemy === boss) {
@@ -281,23 +307,4 @@ function handleGameClear() {
     battleScreen.style.display = "none";
     clearScreen.style.display = "flex";
   }, 1500);
-}
-
-// BGM要素の取得
-const bgm = document.getElementById("bgm");
-
-// ゲーム開始時にBGMを再生
-function startGame() {
-  document.getElementById("startScreen").style.display = "none";
-  gameDiv.style.display = "block";
-
-  // BGM再生
-  if (bgm.paused) {
-    bgm.volume = 0.2; // 音量を1/5に設定
-    bgm.play().catch((error) => {
-      console.error("BGMの再生に失敗しました:", error);
-    });
-  }
-
-  drawGrid();
 }
