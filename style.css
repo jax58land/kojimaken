@@ -1,0 +1,305 @@
+@font-face {
+  font-family: 'Nicoca';
+  src: url('fonts/nicoca_v2.ttf') format('truetype');
+}
+
+body {
+  margin: 0;
+  background: #0f0f0f;
+  color: #fff;
+  font-family: 'Nicoca', Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* ゲームスタート、ゲームオーバー、ゲームクリア画面 */
+#startScreen, #gameOverScreen, #clearScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #1a1a1a, #0f0f0f);
+  color: #fff;
+  text-align: center;
+}
+
+#startScreen h1, #gameOverScreen h1, #clearScreen h1 {
+  font-size: 36px;
+  color: #ff5733;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+button {
+  background: #333;
+  color: #fff;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 20px;
+  margin-top: 20px;
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+button:hover {
+  background: #555;
+  color: #ffcc00;
+  transform: scale(1.1);
+}
+
+#gameOverScreen button, #clearScreen button {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    background: #444;
+  }
+  50% {
+    transform: scale(1.1);
+    background: #555;
+  }
+  100% {
+    transform: scale(1);
+    background: #444;
+  }
+}
+
+/* ゲームマップ画面 */
+#game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+#gameCanvas {
+  background-image: url('map_background.png');
+  background-size: cover;
+  background-position: center;
+  border: 2px solid #444;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}
+
+#ui {
+  margin-top: 10px;
+  text-align: center;
+}
+
+#status p {
+  margin: 0;
+  font-size: 18px;
+  color: #ffcc00;
+}
+
+/* バトル画面 */
+#battleScreen {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  background: linear-gradient(to bottom, #202020, #101010);
+  padding: 20px;
+  color: #fff;
+}
+
+#battleTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#playerArea, #enemyArea {
+  text-align: center;
+  flex: 1;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+#playerImage, #enemyImage {
+  max-width: 33%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+#playerInfo, #enemyInfo {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #ffcc00;
+}
+
+/* バトルアクション */
+#battleBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+#playerActions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.actionButton {
+  background: #444;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.actionButton:hover {
+  background: #666;
+  color: #ffcc00;
+  transform: scale(1.1);
+}
+
+#battleLog {
+  flex: 2;
+  background: #333;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 20px;
+  line-height: 1.5;
+  overflow-y: auto;
+  max-height: 150px;
+  box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* バトルログ内の色分け */
+#battleLog p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+#battleLog p.black {
+  color: #000;
+}
+
+#battleLog p.red {
+  color: #ff0000;
+}
+
+/* キャラクター画像のダメージエフェクト */
+.damage {
+  animation: damageEffect 0.3s alternate 3;
+}
+
+@keyframes damageEffect {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ゲーム画面とバトル画面のレイアウト */
+#battleScreen h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  #gameCanvas {
+    width: 90%;
+    height: auto;
+  }
+
+  #battleTop {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  #playerActions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .actionButton {
+    font-size: 16px;
+    padding: 8px;
+  }
+
+  #battleLog {
+    font-size: 12px;
+    max-height: 100px;
+  }
+}
+
+/* アニメーション */
+button:active {
+  transform: scale(0.95);
+}
+
+#battleTop img.attack {
+  animation: attackEffect 0.3s alternate infinite;
+}
+
+@keyframes attackEffect {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+#battleTop img.damage {
+  animation: damageEffect 0.3s alternate 3;
+}
+
+@keyframes damageEffect {
+  0% {
+    transform: translateY(0);
+    filter: brightness(1);
+  }
+  50% {
+    transform: translateY(-5px);
+    filter: brightness(0.8);
+  }
+  100% {
+    transform: translateY(0);
+    filter: brightness(1);
+  }
+}
+
+/* スクロール対応の戦闘ログ */
+#battleLog span.highlight {
+  color: #ffcc00;
+  font-weight: bold;
+}
