@@ -95,6 +95,38 @@ button:hover {
   color: #ffcc00;
 }
 
+/* 移動用ボタン */
+#controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+#controls button {
+  background: #444;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  margin: 5px;
+  width: 60px;
+  height: 60px;
+  transition: background 0.3s ease-in-out;
+}
+
+#controls button:hover {
+  background: #666;
+  color: #ffcc00;
+}
+
+#controls div {
+  display: flex;
+  gap: 10px;
+}
+
 /* バトル画面 */
 #battleScreen {
   display: flex;
@@ -128,7 +160,7 @@ button:hover {
 }
 
 #playerImage, #enemyImage {
-  max-width: 33%;
+  max-width: 24%;
   height: auto;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
@@ -178,7 +210,7 @@ button:hover {
   color: #fff;
   padding: 10px;
   border-radius: 5px;
-  font-size: 20px;
+  font-size: 14px;
   line-height: 1.5;
   overflow-y: auto;
   max-height: 150px;
@@ -225,10 +257,27 @@ button:hover {
   margin-bottom: 20px;
 }
 
+/* スマホ対応のレスポンシブデザイン */
 @media (max-width: 768px) {
   #gameCanvas {
     width: 90%;
     height: auto;
+  }
+
+  #controls button {
+    width: 50px;
+    height: 50px;
+    font-size: 16px;
+  }
+
+  #battleLog {
+    font-size: 12px;
+    max-height: 80px;
+  }
+
+  .actionButton {
+    font-size: 14px;
+    padding: 8px;
   }
 
   #battleTop {
@@ -242,16 +291,6 @@ button:hover {
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
-  }
-
-  .actionButton {
-    font-size: 16px;
-    padding: 8px;
-  }
-
-  #battleLog {
-    font-size: 12px;
-    max-height: 100px;
   }
 }
 
