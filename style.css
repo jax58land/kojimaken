@@ -9,6 +9,22 @@ body {
   color: #fff;
   font-family: 'Nicoca', Arial, sans-serif;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* 全画面のコンテナ */
+#gameContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  max-width: 768px;
+  background: #1a1a1a;
 }
 
 /* ゲームスタート、ゲームオーバー、ゲームクリア画面 */
@@ -17,7 +33,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
   background: linear-gradient(135deg, #1a1a1a, #0f0f0f);
   color: #fff;
   text-align: center;
@@ -66,41 +82,61 @@ button:hover {
   }
 }
 
-/* ゲームマップ画面 */
+/* ゲーム画面 */
 #game {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: 100vh;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
 #gameCanvas {
-  background-image: url('map_background.png');
-  background-size: cover;
-  background-position: center;
+  width: 90%;
+  height: auto;
+  max-height: 70%; /* キャンバスの高さ制限 */
+  background: #222;
   border: 2px solid #444;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
 
 #ui {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
   margin-top: 10px;
-  text-align: center;
+}
+
+#status {
+  display: flex;
+  justify-content: space-around;
+  width: 90%;
+  font-size: 16px;
 }
 
 #status p {
-  margin: 0;
-  font-size: 18px;
+  margin: 5px 0;
   color: #ffcc00;
 }
 
 /* 移動用ボタン */
 #controls {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  max-width: 768px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10px;
+}
+
+#controls div {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
 
 #controls button {
@@ -108,12 +144,12 @@ button:hover {
   color: #fff;
   border: none;
   border-radius: 5px;
-  padding: 15px; /* タッチ範囲を広げる */
-  font-size: 20px; /* フォントを大きくして視認性を向上 */
+  padding: 15px;
+  font-size: 20px;
   cursor: pointer;
-  margin: 8px;
-  width: 70px;
-  height: 70px; /* ボタンを大きく */
+  margin: 5px;
+  width: 60px;
+  height: 60px;
   transition: background 0.3s ease-in-out;
 }
 
@@ -122,19 +158,14 @@ button:hover {
   color: #ffcc00;
 }
 
-#controls div {
-  display: flex;
-  gap: 10px;
-}
-
 /* バトル画面 */
 #battleScreen {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100vh;
+  height: 100%;
   background: linear-gradient(to bottom, #202020, #101010);
-  padding: 20px;
+  padding: 10px;
   color: #fff;
 }
 
@@ -160,31 +191,31 @@ button:hover {
 }
 
 #playerImage, #enemyImage {
-  max-width: 24%;
+  max-width: 30%;
   height: auto;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
 
 #playerInfo, #enemyInfo {
   margin-top: 10px;
-  font-size: 18px;
+  font-size: 14px;
   color: #ffcc00;
 }
 
 /* バトルアクション */
 #battleBottom {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-top: 20px;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 #playerActions {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 10px;
-  flex: 1;
+  justify-content: center;
 }
 
 .actionButton {
@@ -194,41 +225,33 @@ button:hover {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 18px;
-  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+  font-size: 14px;
+  width: auto;
+  transition: background 0.3s ease-in-out;
 }
 
 .actionButton:hover {
   background: #666;
   color: #ffcc00;
-  transform: scale(1.1);
 }
 
 #battleLog {
-  flex: 2;
+  flex: 1;
   background: #333;
   color: #fff;
   padding: 10px;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.5;
   overflow-y: auto;
   max-height: 150px;
   box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* バトルログ内の色分け */
-#battleLog p {
-  margin: 5px 0;
-  font-size: 14px;
-}
-
-#battleLog p.black {
-  color: #000;
-}
-
-#battleLog p.red {
-  color: #ff0000;
+/* スクロール対応の戦闘ログ */
+#battleLog span.highlight {
+  color: #ffcc00;
+  font-weight: bold;
 }
 
 /* キャラクター画像のダメージエフェクト */
@@ -251,17 +274,15 @@ button:hover {
   }
 }
 
-/* ゲーム画面とバトル画面のレイアウト */
-#battleScreen h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
 /* スマホ対応のレスポンシブデザイン */
 @media (max-width: 768px) {
   #gameCanvas {
-    width: 90%;
-    height: auto;
+    width: 95%;
+    max-height: 60%;
+  }
+
+  #status {
+    font-size: 14px;
   }
 
   #controls button {
@@ -271,74 +292,55 @@ button:hover {
   }
 
   #battleLog {
-    font-size: 12px;
-    max-height: 80px;
+    font-size: 10px;
+    max-height: 120px;
   }
 
   .actionButton {
-    font-size: 14px;
+    font-size: 12px;
     padding: 8px;
+  }
+
+  #playerImage, #enemyImage {
+    max-width: 40%;
   }
 
   #battleTop {
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
   }
 
   #playerActions {
     flex-direction: row;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
   }
 }
 
-/* アニメーション */
-button:active {
-  transform: scale(0.95);
-}
+/* PC向け拡張 */
+@media (min-width: 1024px) {
+  #gameCanvas {
+    max-height: 75%;
+  }
 
-#battleTop img.attack {
-  animation: attackEffect 0.3s alternate infinite;
-}
+  #battleLog {
+    max-height: 200px;
+    font-size: 14px;
+  }
 
-@keyframes attackEffect {
-  0% {
-    transform: scale(1);
-    filter: brightness(1);
+  .actionButton {
+    font-size: 16px;
+    padding: 10px;
   }
-  50% {
-    transform: scale(1.1);
-    filter: brightness(1.2);
-  }
-  100% {
-    transform: scale(1);
-    filter: brightness(1);
-  }
-}
 
-#battleTop img.damage {
-  animation: damageEffect 0.3s alternate 3;
-}
+  #controls button {
+    width: 70px;
+    height: 70px;
+    font-size: 20px;
+  }
 
-@keyframes damageEffect {
-  0% {
-    transform: translateY(0);
-    filter: brightness(1);
+  #playerImage, #enemyImage {
+    max-width: 25%;
   }
-  50% {
-    transform: translateY(-5px);
-    filter: brightness(0.8);
-  }
-  100% {
-    transform: translateY(0);
-    filter: brightness(1);
-  }
-}
-
-/* スクロール対応の戦闘ログ */
-#battleLog span.highlight {
-  color: #ffcc00;
-  font-weight: bold;
 }
