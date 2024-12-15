@@ -108,12 +108,12 @@ button:hover {
   color: #fff;
   border: none;
   border-radius: 5px;
-  padding: 10px;
-  font-size: 18px;
+  padding: 15px; /* タッチ範囲を広げる */
+  font-size: 20px; /* フォントを大きくして視認性を向上 */
   cursor: pointer;
-  margin: 5px;
-  width: 60px;
-  height: 60px;
+  margin: 8px;
+  width: 70px;
+  height: 70px; /* ボタンを大きく */
   transition: background 0.3s ease-in-out;
 }
 
